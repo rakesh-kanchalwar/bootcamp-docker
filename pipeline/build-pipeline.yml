@@ -18,15 +18,15 @@ stages:
         containerRegistry: 'docker-registry'
         repository: 'weight-tracker'
         command: build
-        tags: 'weight-tracker:1.0.$(Build.BuildId)'
-        arguments: 'IMG_VER=1.0.$(Build.BuildId)'
+        tags: 'weight-tracker:1.$(Build.BuildId)'
+        arguments: 'IMG_VER=1.$(Build.BuildId)'
     - task: Docker@2
       displayName: push
       inputs:
         containerRegistry: 'docker-registry'
         repository: 'weight-tracker'
         command: push
-        tags: 'weight-tracker:1.0.$(Build.BuildId)'  
+        tags: 'weight-tracker:1.$(Build.BuildId)'  
 - stage: DeployToStage 
   jobs:
   - job: BuildImage
