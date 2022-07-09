@@ -18,7 +18,7 @@ stages:
         containerRegistry: 'docker-registry'
         repository: 'weight-tracker'
         command: build
-        tags: 'weight-tracker:1.$(Build.BuildId)'
+        #tags: 'weight-tracker:1.$(Build.BuildId)'
         arguments: 'IMG_VER=1.$(Build.BuildId)'
         addPipelineData: false
     - task: Docker@2
