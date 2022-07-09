@@ -16,7 +16,6 @@ stages:
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - job:
     steps:
@@ -27,7 +26,6 @@ stages:
 
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - job:
     steps:
