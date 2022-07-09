@@ -7,7 +7,7 @@ trigger:
 
 stages:
 - stage: CI
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/feature/docker_impl'))
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/feature/master'))
   jobs: 
   - job: BuildImage
     steps:
