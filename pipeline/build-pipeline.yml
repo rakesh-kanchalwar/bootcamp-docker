@@ -12,25 +12,50 @@ stages:
     steps:
     - task: DockerInstaller@0
       displayName: 'Install Docker 17.09.0-ce'
-    - task: Docker@2
-      displayName: build
-      inputs:
-        containerRegistry: 'docker-registry'
-        repository: 'weight-tracker'
-        command: build
-        #tags: 'weight-tracker:1.$(Build.BuildId)'
-        arguments: 'IMG_VER=1.$(Build.BuildId)'
-        addPipelineData: false
-        addBaseImageData: false
+    - script: |
+      docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+      displayName: 'Build docker image'  
     - task: Docker@2
       displayName: push
       inputs:
         containerRegistry: 'docker-registry'
         repository: 'weight-tracker'
         command: push
-- stage: DeployToStage 
+        tags: |
+        1.0.$(Build.BuildId)
+        latest
+        addPipelineData: false
+        addBaseImageData: false
+# Continuous Deployment Process for Staging Environment
+- stage: DeployToStaging
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
-  - job: BuildImage
-    steps: 
-    - script: |
-        ls -la
+  - deployment: staging
+    displayName: Deploy to Staging
+    environment:
+      name: stage
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+            ls -la
+            displayName: 'Build docker image' 
+          
+# Continuous Delivery Process for Production Environment
+- stage: DeployToProduction
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+  - deployment: production
+    displayName: Deploy to Production
+    environment:
+      name: prod
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+            ls -la
+            displayName: 'Build docker image' 
