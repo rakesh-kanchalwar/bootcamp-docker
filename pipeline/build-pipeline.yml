@@ -12,8 +12,7 @@ stages:
     steps:
     - task: DockerInstaller@0
       displayName: 'Install Docker 17.09.0-ce'
-    - script: |
-      docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+    - script: docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
       displayName: 'Build docker image'  
 
 
@@ -30,8 +29,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: |
-            docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+          - script: docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
             displayName: 'Build docker image'  
           - task: Docker@2
             displayName: push
@@ -39,14 +37,12 @@ stages:
               containerRegistry: 'docker-registry'
               repository: 'weight-tracker'
               command: push
-              tags: |
-              1.0.$(Build.BuildId)
-              latest
+              tags: 1.0.$(Build.BuildId) latest
               addPipelineData: false
               addBaseImageData: false
           
 
-          
+
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
@@ -60,6 +56,5 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: |
-            ls -la
+          - script: ls -la
             displayName: 'Build docker image' 
