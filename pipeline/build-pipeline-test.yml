@@ -18,7 +18,8 @@ stages:
 - stage: DeployToStaging
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
-    job:
+  - job:
+    steps:
     - script: ls -la
       displayName: 'Build docker image' 
           
@@ -28,6 +29,7 @@ stages:
 - stage: DeployToProduction
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
-    job:
+  - job:
+    steps:
     - script: ls -la
       displayName: 'Build docker image' 
