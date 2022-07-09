@@ -17,6 +17,7 @@ stages:
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/feature/docker_impl'))
   jobs:
   - job:
     steps:
