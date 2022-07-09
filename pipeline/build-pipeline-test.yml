@@ -1,0 +1,33 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - feature/*
+
+stages:
+- stage: CI
+  jobs: 
+  - job: BuildImage
+    steps:
+    - script: ls -la
+      displayName: 'Build docker image'   
+
+
+# Continuous Deployment Process for Staging Environment
+- stage: DeployToStaging
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+    job:
+    - script: ls -la
+      displayName: 'Build docker image' 
+          
+
+
+# Continuous Delivery Process for Production Environment
+- stage: DeployToProduction
+  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  jobs:
+    job:
+    - script: ls -la
+      displayName: 'Build docker image' 
