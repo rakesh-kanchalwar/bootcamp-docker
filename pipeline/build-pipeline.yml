@@ -15,17 +15,8 @@ stages:
     - script: |
       docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
       displayName: 'Build docker image'  
-    - task: Docker@2
-      displayName: push
-      inputs:
-        containerRegistry: 'docker-registry'
-        repository: 'weight-tracker'
-        command: push
-        tags: |
-        1.0.$(Build.BuildId)
-        latest
-        addPipelineData: false
-        addBaseImageData: false
+
+
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
@@ -40,8 +31,21 @@ stages:
         deploy:
           steps:
           - script: |
-            ls -la
-            displayName: 'Build docker image' 
+            docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+            displayName: 'Build docker image'  
+          - task: Docker@2
+            displayName: push
+            inputs:
+              containerRegistry: 'docker-registry'
+              repository: 'weight-tracker'
+              command: push
+              tags: |
+              1.0.$(Build.BuildId)
+              latest
+              addPipelineData: false
+              addBaseImageData: false
+          
+
           
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
