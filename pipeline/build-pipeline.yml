@@ -20,6 +20,7 @@ stages:
         command: build
         tags: 'weight-tracker:1.$(Build.BuildId)'
         arguments: 'IMG_VER=1.$(Build.BuildId)'
+        addPipelineData: false
     - task: Docker@2
       displayName: push
       inputs:
