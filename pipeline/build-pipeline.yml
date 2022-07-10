@@ -20,6 +20,21 @@ stages:
 - stage: DeployToStaging
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
+  - job: BuildImage
+    steps:
+    - task: DockerInstaller@0
+      displayName: 'Install Docker 17.09.0-ce'
+    - script: docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+      displayName: 'Build docker image' 
+    - task: Docker@2
+      displayName: push
+      inputs:
+        containerRegistry: 'docker-registry'
+        repository: 'weight-tracker'
+        command: push
+        tags: 1.0.$(Build.BuildId) latest
+        addPipelineData: false
+        addBaseImageData: false  
   - deployment: staging
     displayName: Deploy to Staging
     environment:
