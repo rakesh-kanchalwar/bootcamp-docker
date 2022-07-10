@@ -5,16 +5,8 @@ trigger:
     - master
     - feature/*
 
-parameters:
-  - name: stage-servers
-    type: object
-    default: []
-  - name: prod-servers
-    type: object
-    default: []
-
 stages:
-- stage: CI on feature
+- stage: CiOnFeature
   jobs: 
   - job: BuildImage
     steps:
@@ -25,7 +17,7 @@ stages:
 
 
 # Continuous Deployment Process for Staging Environment
-- stage:  CI on pull request
+- stage:  CiOnPullRequest
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
   - job: BuildImage
@@ -55,7 +47,7 @@ stages:
           steps:
           - template: template-deploy.yml
             parameters:
-              stage-servers: ['stage1', 'stage2', 'stage3']
+              servers: ['stage1', 'stage2', 'stage3']
           
 ## ssh script docker pull / docker compose
 
@@ -73,4 +65,4 @@ stages:
           steps:
           - template: template-deploy.yml
             parameters:
-              stage-servers: ['prod1', 'prod2', 'prod3']
+              servers: ['prod1', 'prod2', 'prod3']
