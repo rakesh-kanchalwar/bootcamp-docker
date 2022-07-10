@@ -18,7 +18,7 @@ stages:
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  #condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: staging
     displayName: Deploy to Staging
@@ -41,11 +41,11 @@ stages:
               addPipelineData: false
               addBaseImageData: false
           
-
+## ssh script docker pull / docker compose
 
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+  #condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
   jobs:
   - deployment: production
     displayName: Deploy to Production

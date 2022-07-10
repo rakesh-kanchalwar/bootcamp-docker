@@ -11,3 +11,4 @@ CMD ["node", "src/index.js"]
 
 
 #docker build  --build-arg IMG_VER=1.0.2 -t weight-tracker:1.0.2 .
+#docker run --mount type=bind,source=~/.env,target=/home/node/app/.env weight-tracker:latest
