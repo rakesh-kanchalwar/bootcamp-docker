@@ -1,35 +1,12 @@
-trigger:
-  batch: true
-  branches:
-    include:
-    - master
-    - feature/*
+parameters:
+  - name: servers
+    type: object
+    default: []
 
-stages:
-- stage: CI
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/feature/master'))
-  jobs: 
-  - job: BuildImage
-    steps:
-    - script: ls -la
-      displayName: 'Build docker image'   
-
-
-# Continuous Deployment Process for Staging Environment
-- stage: DeployToStaging
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/feature/docker_impl'))
-  jobs:
-  - job:
-    steps:
-    - script: ls -la
-      displayName: 'Build docker image' 
-          
-
-
-# Continuous Delivery Process for Production Environment
-- stage: DeployToProduction
-  jobs:
-  - job:
-    steps:
-    - script: ls -la
-      displayName: 'Build docker image' 
+steps:       
+- ${{ each server in parameters.servers }}:
+  - task: SSH@0
+    displayName: 'Download docker image on remote machine'
+    inputs:
+      sshEndpoint: ${{ server }}
+      commands: 'docker run --mount type=bind,source=~/.env,target=/home/node/app/.env weight-tracker:latest'
