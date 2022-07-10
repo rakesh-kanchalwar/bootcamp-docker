@@ -24,7 +24,6 @@ stages:
     displayName: Deploy to Staging
     environment:
       name: stage
-      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
@@ -51,7 +50,6 @@ stages:
     displayName: Deploy to Production
     environment:
       name: prod
-      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
