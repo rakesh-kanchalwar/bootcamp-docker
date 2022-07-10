@@ -5,8 +5,16 @@ trigger:
     - master
     - feature/*
 
+parameters:
+  - name: stage-servers
+    type: object
+    default: []
+  - name: prod-servers
+    type: object
+    default: []
+
 stages:
-- stage: CI
+- stage: CI on feature
   jobs: 
   - job: BuildImage
     steps:
@@ -17,7 +25,7 @@ stages:
 
 
 # Continuous Deployment Process for Staging Environment
-- stage: DeployToStaging
+- stage:  CI on pull request
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
   - job: BuildImage
@@ -37,7 +45,17 @@ stages:
           latest
         addPipelineData: false
         addBaseImageData: false  
-  
+  - deployment: staging
+    displayName: Deploy to Staging
+    environment:
+      name: stage
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: template-deploy.yml
+            parameters:
+              stage-servers: ['stage1', 'stage2', 'stage3']
           
 ## ssh script docker pull / docker compose
 
@@ -53,5 +71,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: ls -la
-            displayName: 'Build docker image' 
+          - template: template-deploy.yml
+            parameters:
+              stage-servers: ['prod1', 'prod2', 'prod3']
