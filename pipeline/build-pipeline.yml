@@ -66,6 +66,7 @@ stages:
   #         - template: template-deploy.yml
   #           parameters:
   #             servers: ['prod1', 'prod2', 'prod3']
+  
    - job: 
      steps:
        - script: ls -la
