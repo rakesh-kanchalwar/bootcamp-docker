@@ -9,4 +9,4 @@ steps:
     displayName: 'Download docker image on remote machine'
     inputs:
       sshEndpoint: ${{ server }}
-      commands: 'docker run --mount type=bind,source=/home/azureuser/.env,target=/home/node/app/.env bootcampdocregistry.azurecr.io/weight-tracker:latest'
+      commands: 'docker run -d --mount type=bind,source=/home/azureuser/.env,target=/home/node/app/.env bootcampdocregistry.azurecr.io/weight-tracker:latest'
