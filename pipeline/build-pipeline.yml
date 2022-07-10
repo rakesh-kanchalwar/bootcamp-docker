@@ -48,25 +48,19 @@ stages:
           - template: template-deploy.yml
             parameters:
               servers: ['stage1', 'stage2', 'stage3']
-          
-## ssh script docker pull / docker compose
 
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
-  # - deployment: production
-  #   displayName: Deploy to Production
-  #   environment:
-  #     name: prod
-  #   strategy:
-  #     runOnce:
-  #       deploy:
-  #         steps:
-  #         - template: template-deploy.yml
-  #           parameters:
-  #             servers: ['prod1', 'prod2', 'prod3']
-  
-   - job: 
-     steps:
-       - script: ls -la
+  - deployment: production
+    displayName: Deploy to Production
+    environment:
+      name: prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: template-deploy.yml
+            parameters:
+              servers: ['prod1', 'prod2', 'prod3']
