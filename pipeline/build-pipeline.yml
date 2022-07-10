@@ -7,7 +7,6 @@ trigger:
 
 stages:
 - stage: CI
-  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'feature/*'))
   jobs: 
   - job: BuildImage
     steps:
@@ -44,7 +43,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t btdockerregistries.azurecr.io/weight-tracker -t btdockerregistries.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
+          - script: docker build  --build-arg IMG_VER=1.0.$(Build.BuildId) -t weight-tracker:1.0.$(Build.BuildId) . -t bootcampdocregistry.azurecr.io/weight-tracker -t bootcampdocregistry.azurecr.io/weight-tracker:1.0.$(Build.BuildId)
             displayName: 'Build docker image'  
           - task: Docker@2
             displayName: push
