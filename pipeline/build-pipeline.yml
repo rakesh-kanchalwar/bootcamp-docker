@@ -18,7 +18,7 @@ stages:
 
 # Continuous Deployment Process for Staging Environment
 - stage: DeployToStaging
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
   - deployment: staging
     displayName: Deploy to Staging
@@ -45,7 +45,7 @@ stages:
 
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
-  condition: and(succeeded(), eq(variables['build.sourceBranch'], 'master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
   - deployment: production
     displayName: Deploy to Production
