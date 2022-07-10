@@ -55,14 +55,17 @@ stages:
 - stage: DeployToProduction
   condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
   jobs:
-  - deployment: production
-    displayName: Deploy to Production
-    environment:
-      name: prod
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: template-deploy.yml
-            parameters:
-              servers: ['prod1', 'prod2', 'prod3']
+  # - deployment: production
+  #   displayName: Deploy to Production
+  #   environment:
+  #     name: prod
+  #   strategy:
+  #     runOnce:
+  #       deploy:
+  #         steps:
+  #         - template: template-deploy.yml
+  #           parameters:
+  #             servers: ['prod1', 'prod2', 'prod3']
+   - job: 
+     steps:
+       - script: ls -la
