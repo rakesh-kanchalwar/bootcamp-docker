@@ -9,4 +9,8 @@ steps:
     displayName: 'Download docker image on remote machine'
     inputs:
       sshEndpoint: ${{ server }}
-      commands: 'docker run -d --mount type=bind,source=/home/azureuser/.env,target=/home/node/app/.env bootcampdocregistry.azurecr.io/weight-tracker:latest'
+      runOptions: inline
+      inline: |
+        #! /bin/bash
+        docker ps -q --filter "name=wt" | grep -q . && docker stop wt  && docker rm -fv wt
+        docker run -d --name wt --mount type=bind,source=/home/azureuser/.env,target=/home/node/app/.env bootcampdocregistry.azurecr.io/weight-tracker:latest
