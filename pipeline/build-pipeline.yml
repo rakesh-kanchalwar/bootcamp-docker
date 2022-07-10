@@ -7,6 +7,7 @@ trigger:
 
 stages:
 - stage: CI
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'feature/*'))
   jobs: 
   - job: BuildImage
     steps:
