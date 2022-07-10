@@ -32,7 +32,7 @@ stages:
         containerRegistry: 'docker-registry'
         repository: 'weight-tracker'
         command: push
-        tags: 1.0.$(Build.BuildId) latest
+        tags: 1.0.$(Build.BuildId)
         addPipelineData: false
         addBaseImageData: false  
   
