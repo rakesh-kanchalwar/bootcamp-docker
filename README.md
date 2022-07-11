@@ -14,3 +14,14 @@ This code consists of a an azure pipeline with following tasks
 
 [![Build Status](https://dev.azure.com/kanchalwarrakesh/bootcamp-app/_apis/build/status/bootcamp-app?branchName=master)](https://dev.azure.com/kanchalwarrakesh/bootcamp-app/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://dev.azure.com/kanchalwarrakesh/bootcamp-app/_apis/build/status/bootcamp-app?branchName=feature%2Fdocker_impl)](https://dev.azure.com/kanchalwarrakesh/bootcamp-app/_build/latest?definitionId=1&branchName=feature%2Fdocker_impl)
+
+
+
+# Starting the service for development
+    Follow below steps to start application in local docker, it will start application and database containers
+    - change directory to bonus
+    - update .env file with your okta credentials
+    - start the docker with command
+        - docker-compose -f .\docker-compose.yml up --detach
+    - stop the docker with command
+        - docker-compose -f .\docker-compose.yml down    

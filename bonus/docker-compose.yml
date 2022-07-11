@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+  db:
+    container_name: bt_db
+    image: postgres:14.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p0stgr3s
+    ports:
+      - 5431:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./startup_db.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  app:
+    container_name: wt-app
+    build:
+      context: ../Dockerfile
+      target: developement
+    image: weight-tracker
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    links:
+      - db    
+    volumes:
+      - ./.env:/home/node/app/.env  
+volumes:
+  db:
+    driver: local 
