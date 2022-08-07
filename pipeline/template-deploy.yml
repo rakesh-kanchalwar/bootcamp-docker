@@ -12,5 +12,4 @@ steps:
       runOptions: inline
       inline: |
         #! /bin/bash
-        docker ps -q --filter "name=wt" | grep -q . && docker stop wt  && docker rm -fv wt
-        docker run -d --restart always -p 8080:8080 --name wt --mount type=bind,source=/home/azureuser/.env,target=/home/node/app/.env bootcampdocregistry.azurecr.io/weight-tracker:latest
+        kubectl rollout restart deployment bootcamp-app
