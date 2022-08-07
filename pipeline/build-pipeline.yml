@@ -47,7 +47,7 @@ stages:
           steps:
           - template: template-deploy.yml
             parameters:
-              servers: ['stage1', 'stage2', 'stage3']
+              servers: ['stage1']
 
 # Continuous Delivery Process for Production Environment
 - stage: DeployToProduction
@@ -63,4 +63,4 @@ stages:
           steps:
           - template: template-deploy.yml
             parameters:
-              servers: ['prod1', 'prod2', 'prod3']
+              servers: ['prod1']
