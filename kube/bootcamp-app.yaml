@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name : bootcamp-app
+        labels:
+                app: bootcamp
+spec:
+        replicas: 3
+        selector:
+                matchLabels:
+                        app: bootcamp
+        template:
+                metadata:
+                        labels:
+                                app: bootcamp
+                spec:
+                        containers:
+                                - name: bootcamp-apps
+                                  image: bootcampdocregistry.azurecr.io/weight-tracker:latest
+                                  ports:
+                                          - containerPort:  8080
+                                  volumeMounts:
+                                        - name: env
+                                          mountPath: /home/node/app/.env
+                                          subPath: .env
+                                          readOnly: true
+                        volumes:
+                                #- name: env
+                                #secret:
+                                #secretName: bootcamp-secret
+                                   #optional: false
+                                - name: env
+                                  configMap:
+                                        name: bootcamp-config
+                                        items:
+                                                - key: env.properties
+                                                  path: .env
+                        imagePullSecrets:
+                         - name: az-reg
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: bootcamp-app-service
+spec:
+        selector:
+                app: bootcamp
+        ports:
+                - name: app-port
+                  protocol: TCP
+                  port: 80
+                  targetPort: 8080

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+        name: bootcamp-config
+data:
+        env.properties: |
+                # Host configuration
+                PORT=8080
+                HOST=0.0.0.0
+                NODE_ENV=development
+                HOST_URL=http://20.81.27.131:80
+                COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+
+                # Okta configuration
+                OKTA_ORG_URL=https://dev-68949001.okta.com
+                OKTA_CLIENT_ID=0oa5ij18pi8QBFDio5d7
+                OKTA_CLIENT_SECRET=D6zD-RdWTavDWh1JUNVrA9Ic3cqlYPXsTi3FDS39
+
+                # Postgres configuration
+                PGHOST=localhost
+                PGUSERNAME=postgres
+                PGDATABASE=postgres
+                PGPASSWORD=p@ssw0rd42
+                PGPORT=5432
